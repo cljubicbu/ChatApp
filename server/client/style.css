@@ -1,0 +1,205 @@
+html,
+body,
+.container {
+    height: 100%;
+    background-color: #FFF7FA;
+}
+.form-control:focus {
+    box-shadow: none;
+}
+.sidebar {
+    height: 100%;
+    background-color: #71DDE3;
+    width: 30%;
+}
+
+.main {
+    height: 100%;
+    width: 70%;
+}
+
+.chat-nav-tab {
+    width: 100%;
+    height: 60px;
+    background-color: #71DDE3;
+    color: black;
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+    padding-left: 16px;
+    cursor: pointer;
+}
+
+.chat-nav-tab:hover {
+    border-left: 5px solid #0396A6;
+    padding-left: 11px;
+}
+
+.selected {
+    border-left: 5px solid #0396A6;
+    padding-left: 11px;
+}
+
+.message-container {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 38px);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding-top: 10px;
+}
+
+.input-container {
+    width: 100%;
+    height: 38px;
+}
+
+.input-group-addon-btn {
+    padding: 0;
+}
+
+.input-group-addon-btn button {
+    border: none;
+    cursor: pointer;
+    height: 100%;
+}
+
+.input-group>input {
+    border-radius: 0;
+}
+/* SCROLLBAR */
+*::-webkit-scrollbar-track
+{
+	background-color: #FFF7FA;
+}
+
+*::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #FFF7FA;
+}
+
+*::-webkit-scrollbar-thumb
+{
+	background-color: #0396A6;
+}
+
+
+/* message box */
+
+/* Right triangle, left side slightly down */
+
+.tri-right.border.left-in:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -40px;
+    right: auto;
+    top: 30px;
+    bottom: auto;
+    border: 20px solid;
+    border-color: #666 #666 transparent transparent;
+}
+
+.tri-right.left-in:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -20px;
+    right: auto;
+    top: 15px;
+    bottom: auto;
+    border: 12px solid;
+    border-color: #F04A58 #F04A58 transparent transparent;
+}
+
+/* Right triangle, right side slightly down*/
+
+.tri-right.border.right-in:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: -40px;
+    top: 30px;
+    bottom: auto;
+    border: 20px solid;
+    border-color: #666 transparent transparent #666;
+}
+
+.tri-right.right-in:after {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: auto;
+    right: -20px;
+    top: 15px;
+    bottom: auto;
+    border: 12px solid;
+    border-color: #F04A58 transparent transparent #F04A58;
+}
+
+/* talk bubble contents */
+
+.talktext {
+    padding: 1em;
+    padding-top: 0.75em;
+    text-align: left;
+    line-height: 1.5em;
+}
+
+.talktext p {
+    /* remove webkit p margins */
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+}
+
+/* CSS talk bubble */
+
+.talk-bubble {
+    margin: 25px;
+    margin-top: 0;
+    display: inline-block;
+    position: relative;
+    max-width: 400px;
+    height: auto;
+    background-color: #F04A58;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+}
+/* end */
+
+.flex-end {
+    align-self: flex-end;
+}
+
+.user-typing {
+    position: relative;
+    bottom: 2px;
+    left: 5px;
+    max-width: calc(100% - 5px);
+}
+
+.user-typing span {
+    font-size: 12px;
+}
+
+.time {
+    font-size: 12px;
+    position: absolute;
+    bottom: -2px;
+    font-weight: 100;
+    right: 25px;
+}
+
+.username {
+    font-size: 18px;
+    font-weight: 700;
+}

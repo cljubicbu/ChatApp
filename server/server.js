@@ -12,6 +12,7 @@ var json = {
         name: "prvi submodul",
         content: "aigoapw ngwpapgn w fnawe"
     }, {
+
         name: "drugi submodul",
         content: "aigoapw ngwpapgn w fnawe"
     }]
@@ -25,13 +26,15 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 
-app.get('/', function (req, res) {
-    res.send('hello world')
-    db.collection('quotes').insert(json, (err, result) => {
-        if (err) return console.error(err)
+app.use(express.static("client"));
 
-        console.log('saved to database', json._id)
-    })
+app.get('/', function (req, res) {
+    res.sendFile('index.html')
+    // db.collection('quotes').insert(json, (err, result) => {
+    //     if (err) return console.error(err)
+
+    //     console.log('saved to database', json._id)
+    // })
 })
 
 // socket
