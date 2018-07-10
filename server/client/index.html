@@ -18,7 +18,8 @@
         crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
         crossorigin="anonymous"></script>
-
+    <!-- socket io client js -->
+    <script src="./socket.io-client/dist/socket.io.slim.js"></script>
     <!-- Custom css -->
     <link rel="stylesheet" type="text/css" href="./style.css">
 
@@ -44,7 +45,7 @@
                         <span class="username">User neki</span>
 
                         <p>Movingght-innrig inright-in inright-inht-in</p>
-                     </div>
+                    </div>
                 </div>
 
                 <div class="talk-bubble tri-right left-in">
@@ -136,16 +137,37 @@
                     </div>
                 </div>
                 <div id="user-typing" class="user-typing">
-                    <span>Netko piše...</span>
+                    
                 </div>
             </div>
             <div class="input-container">
-                <div class="input-group">
-                    <input id="msg-input" type="text" class="form-control" placeholder="Poruka..." />
-                    <span class="input-group-addon input-group-addon-btn bg-white">
-                        <button id="send-msg-btn" class="btn-danger" class="btn px-2" type="button">Pošalji</button>
-                    </span>
+                <form>
+                    <div class="input-group">
+                        <input id="msg-input" type="text" class="form-control" placeholder="Poruka..." />
+                        <span class="input-group-addon input-group-addon-btn bg-white">
+                            <button id="send-msg-btn" class="btn-danger" class="btn px-2" type="submit">Pošalji</button>
+                        </span>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Unesite nadimak</h5>
                 </div>
+                <form>
+                    <div class="modal-body">
+                        <input id="username-input" type="text" class="form-control" placeholder="Nadimak">
+                    </div>
+                    <div class="modal-footer">
+                        <button id="enter-chat-btn" type="submit" class="btn btn-primary">Uđi u chat
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -12,7 +12,7 @@ var json = {
         name: "prvi submodul",
         content: "aigoapw ngwpapgn w fnawe"
     }, {
-
+ 
         name: "drugi submodul",
         content: "aigoapw ngwpapgn w fnawe"
     }]
@@ -40,14 +40,27 @@ app.get('/', function (req, res) {
 // socket
 
 io.on('connection', function(socket) {
-    console.log('a user connected')
-    socket.on('usernameDeclaration', (data) => {
+    
+    socket.on('username declared', (data) => {
         socket.username = data.username
         console.log('username decared: ' + data.username)
+        socket.broadcast.emit('user joined', data)
     })
     socket.on('message', (data) => {
         console.log('message sent from user: ' + data.username)
         socket.broadcast.emit('message', data)
+    })
+    socket.on('started typing', (data) => {
+        console.log('user started typing: ' + data.username)
+        socket.broadcast.emit('started typing', data)
+    })
+    socket.on('stopped typing', (data) => {
+        console.log('user stopped typing' + data.username)
+        socket.broadcast.emit('stopped typing', data)
+    })
+    socket.on('disconnect', (data) => {
+        console.log('user disconnected: ', data.username)
+        socket.broadcast.emit('user left', data)
     })
 })
 

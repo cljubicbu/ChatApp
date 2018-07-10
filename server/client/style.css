@@ -4,9 +4,16 @@ body,
     height: 100%;
     background-color: #FFF7FA;
 }
-.form-control:focus {
+
+form {
+    margin: 0;
+}
+
+.form-control:focus,
+.btn-danger:focus {
     box-shadow: none;
 }
+
 .sidebar {
     height: 100%;
     background-color: #71DDE3;
@@ -69,23 +76,21 @@ body,
 .input-group>input {
     border-radius: 0;
 }
+
 /* SCROLLBAR */
-*::-webkit-scrollbar-track
-{
-	background-color: #FFF7FA;
+
+*::-webkit-scrollbar-track {
+    background-color: #FFF7FA;
 }
 
-*::-webkit-scrollbar
-{
-	width: 6px;
-	background-color: #FFF7FA;
+*::-webkit-scrollbar {
+    width: 6px;
+    background-color: #FFF7FA;
 }
 
-*::-webkit-scrollbar-thumb
-{
-	background-color: #0396A6;
+*::-webkit-scrollbar-thumb {
+    background-color: #0396A6;
 }
-
 
 /* message box */
 
@@ -152,6 +157,7 @@ body,
     padding-top: 0.75em;
     text-align: left;
     line-height: 1.5em;
+    padding-right: 70px;
 }
 
 .talktext p {
@@ -174,6 +180,7 @@ body,
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;
 }
+
 /* end */
 
 .flex-end {
@@ -185,18 +192,16 @@ body,
     bottom: 2px;
     left: 5px;
     max-width: calc(100% - 5px);
-}
-
-.user-typing span {
     font-size: 12px;
 }
 
 .time {
-    font-size: 12px;
+    font-size: 14px;
     position: absolute;
-    bottom: -2px;
-    font-weight: 100;
-    right: 25px;
+    bottom: 2px;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.4);
+    right: 18px;
 }
 
 .username {
