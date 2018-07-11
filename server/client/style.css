@@ -2,9 +2,15 @@ html,
 body,
 .container {
     height: 100%;
-    background-color: #FFF7FA;
+    background-color: #E0F7F4;
 }
 
+.btn-danger {
+    background-color: #4DD0E1;
+}
+.btn-danger:hover { 
+    background-color: #00ACC1;
+}
 form {
     margin: 0;
 }
@@ -16,7 +22,7 @@ form {
 
 .sidebar {
     height: 100%;
-    background-color: #71DDE3;
+    background-color: #2A2B2C;
     width: 30%;
 }
 
@@ -28,22 +34,21 @@ form {
 .chat-nav-tab {
     width: 100%;
     height: 60px;
-    background-color: #71DDE3;
-    color: black;
+    background-color: #2A2B2C;
+    color: white;
     display: flex;
     align-items: center;
     font-size: 22px;
     padding-left: 16px;
-    cursor: pointer;
 }
 
 .chat-nav-tab:hover {
-    border-left: 5px solid #0396A6;
+    border-left: 5px solid white;
     padding-left: 11px;
 }
 
 .selected {
-    border-left: 5px solid #0396A6;
+    border-left: 5px solid white;
     padding-left: 11px;
 }
 
@@ -53,7 +58,7 @@ form {
     height: calc(100% - 38px);
     background-color: white;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     overflow: auto;
     padding-top: 10px;
 }
@@ -119,7 +124,7 @@ form {
     top: 15px;
     bottom: auto;
     border: 12px solid;
-    border-color: #F04A58 #F04A58 transparent transparent;
+    border-color: #4DD0E1 #4DD0E1 transparent transparent;
 }
 
 /* Right triangle, right side slightly down*/
@@ -147,7 +152,7 @@ form {
     top: 15px;
     bottom: auto;
     border: 12px solid;
-    border-color: #F04A58 transparent transparent #F04A58;
+    border-color: #4DD0E1 transparent transparent #4DD0E1;
 }
 
 /* talk bubble contents */
@@ -175,7 +180,7 @@ form {
     position: relative;
     max-width: 400px;
     height: auto;
-    background-color: #F04A58;
+    background-color: #4DD0E1;
     border-radius: 30px;
     -webkit-border-radius: 30px;
     -moz-border-radius: 30px;

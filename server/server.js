@@ -59,8 +59,8 @@ io.on('connection', function(socket) {
         socket.broadcast.emit('stopped typing', data)
     })
     socket.on('disconnect', (data) => {
-        console.log('user disconnected: ', data.username)
-        socket.broadcast.emit('user left', data)
+        console.log('user disconnected: ', socket.username)
+        socket.broadcast.emit('user left', {username: socket.username})
     })
 })
 

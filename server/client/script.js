@@ -13,7 +13,8 @@ let isTyping = false;
 let usersTyping = [];
 // my username
 let username = sessionStorage.getItem('username');
-console.log(username);
+
+// show modal for username input if username isnt stored in session
 if (username == null) {
     $('#exampleModal').modal({
         backdrop: 'static',
@@ -23,14 +24,15 @@ if (username == null) {
 } else {
     socket_connect();
 }
+
 scrollToBottomOfMessages();
 
-// refresh username on server if server gets restarted or something else causes reconnection
 
 // enter chat only if username is typed in modal
 enterChatBtn.onclick = function (event) {
     event.preventDefault();
     // if username exists, dont show the popup
+    console.log('enter chat pressed');
     if (username != null)
         return;
     if (usernameInput.value.length > 0 && usernameInput.value.trim().length > 0) {
@@ -38,46 +40,83 @@ enterChatBtn.onclick = function (event) {
         $('#exampleModal').modal('hide');
         console.log(username, username.length);
         sessionStorage.setItem('username', username);
+        socket_connect();
     } else {
         alert('Unesite nadimak kako biste pristupili chatu!');
     }
-    socket_connect();
 }
 
-function socket_connect() {
-    socket = io('http://localhost:3000/');
-    socket_emitUsername();
-}
 // socket methods
-socket.on('reconnect', () => {
+
+// connect to socket
+function socket_connect() {
+    socket = io('localhost:3000/');
     socket_emitUsername();
-})
+    socket_initSocketEventHandlers();
+}
+
+// refresh username on server if server gets restarted, page gets refreshed or something else causes reconnection
 
 function socket_emitUsername() {
     socket.emit('username declared', {
         username: username
     });
 }
-socket.on('started typing', data => {
-    usersTyping.push({
-        username: data.username
+
+function socket_initSocketEventHandlers() {
+    socket.on('reconnect', () => {
+        socket_emitUsername();
     });
-    console.log(usersTyping);
-    refreshUsersTypingDiv();
-})
-socket.on('stopped typing', data => {
-    var user = usersTyping.find(user => user.username == data.username);
-    var index = usersTyping.indexOf(user);
-    if (index > -1) {
-        usersTyping.splice(index, 1);
-    }
-    console.log(usersTyping);
-    refreshUsersTypingDiv();
-})
+
+    socket.on('user joined', data => {
+        createMessage({
+            isRemote: true,
+            message: data.username + ' se pridružio kanalu!',
+            time: new Date()
+        });
+    });
+
+    socket.on('user left', data => {
+        createMessage({
+            isRemote: true,
+            message: data.username + ' je napustio kanal!',
+            time: new Date()
+        });
+    })
+    ;
+    socket.on('message', data => {
+        createMessage({
+            isRemote: true,
+            message: data.message,
+            time: new Date(),
+            username: data.username
+        });
+    });
+
+    socket.on('started typing', data => {
+        usersTyping.push({
+            username: data.username
+        });
+        console.log(usersTyping);
+        refreshUsersTypingDiv();
+    });
+
+    socket.on('stopped typing', data => {
+        var user = usersTyping.find(user => user.username == data.username);
+        var index = usersTyping.indexOf(user);
+        if (index > -1) {
+            usersTyping.splice(index, 1);
+        }
+        console.log(usersTyping);
+        refreshUsersTypingDiv();
+    });
+}
+
 // handle click on send message button
 sendMessageBtn.onclick = function (event) {
     event.preventDefault();
     let msg = messageInput.value;
+    console.log('sending');
     // createMessage if something is written in input field, ignore otherwise
     if (msg.length > 0 && msg.trim().length > 0) {
         // emit stopped typing
@@ -87,11 +126,14 @@ sendMessageBtn.onclick = function (event) {
         clearTimeout(isTypingTimeout);
         isTyping = false;
         //emit message
+        socket.emit('message', {
+            message: msg,
+            username: username
+        });
         createMessage({
             isRemote: false,
             message: msg,
-            time: new Date(),
-            username: 'Pero'
+            time: new Date()
         });
     }
 }
@@ -128,11 +170,17 @@ messageInput.onkeypress = function (event) {
 function refreshUsersTypingDiv() {
     let str = '';
     console.log(usersTyping.length);
-    if(usersTyping.length == 1) {
+    if (usersTyping.length == 1) {
         str = usersTyping[0].username + ' piše...';
-    } else if(usersTyping.length > 0) {
-        usersTyping.forEach(user => {
-            str += user.username + ' ';
+    } else if (usersTyping.length > 0) {
+        usersTyping.forEach((user, index, arr) => {
+            if (arr.length - 2 == index) {
+                str += user.username + ' i ';
+            } else if (arr.length - 1 == index) {
+                str += user.username + ' ';
+            } else {
+                str += user.username + ', ';
+            }
         });
         str += 'pišu...'
     }
@@ -158,17 +206,20 @@ function createMessage(props) {
     if (isRemote) {
         messageDiv.classList.add('left-in');
 
-        let usernameSpan = document.createElement('span');
-        usernameSpan.innerText = username;
-        usernameSpan.classList.add('username');
-        messageTextDiv.appendChild(usernameSpan);
+        // if username is null, it isnt a message, but a notification, and it doesnt have a username
+        if (username != null) {
+            let usernameSpan = document.createElement('span');
+            usernameSpan.innerText = username;
+            usernameSpan.classList.add('username');
+            messageTextDiv.appendChild(usernameSpan);
+        }
     } else {
         // if is not remote align right
         messageDiv.classList.add('right-in');
         messageDiv.classList.add('flex-end');
         // scroll to end of messages if message is from self
         scrollToBottomOfMessages();
-        // clear input field 
+        // clear input field  
         messageInput.value = '';
     }
 
@@ -180,14 +231,15 @@ function createMessage(props) {
     // add message time
     let messageTimeSpan = document.createElement('span');
     messageTimeSpan.classList.add('time');
-    messageTimeSpan.innerText = time.toLocaleTimeString().substring(0, 5);
+    messageTimeSpan.innerText = time.toLocaleTimeString().charAt(4) == ':' ? time.toLocaleTimeString().substring(0, 4) : time.toLocaleTimeString().substring(0, 5);
     messageTextDiv.appendChild(messageTimeSpan);
 
     // add message text to message
     messageDiv.appendChild(messageTextDiv);
 
     // insert message at the end of messages, before user typing div
-    messageContainerDiv.insertBefore(messageDiv, userTypingDiv);
+    userTypingDiv.after(messageDiv)
+    //messageContainerDiv.insertBefore(messageDiv, userTypingDiv);
     scrollToBottomOfMessages();
 }
 
